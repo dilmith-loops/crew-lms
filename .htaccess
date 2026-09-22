@@ -4,18 +4,13 @@
     </IfModule>
 
     RewriteEngine On
-    RewriteBase /hrlms/
 
-    # Prevent direct access to sensitive files and folders (.env, .git, vendor, etc.)
+    # Prevent direct access to sensitive files and folders
     RewriteRule ^\.(.*)$ - [F,L]
     RewriteRule ^(app|bootstrap|config|database|Modules|resources|routes|storage|stubs|tests|vendor)/ - [F,L]
 
-    # Serve static assets from public/ folder
+    # Rewrite all traffic into the public/ directory
     RewriteCond %{REQUEST_URI} !^/hrlms/public/
-    RewriteRule ^(build/.*|.*\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webmanifest))$ public/$1 [L,NC]
-
-    # Send all application routes to local index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [L]
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
+
