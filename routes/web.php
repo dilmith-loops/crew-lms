@@ -21,6 +21,11 @@ use Modules\Recruitment\Http\Controllers\RecruitmentController;
 // Homepage redirects to Leave Management Dashboard
 Route::get('/', [LeaveDashboardController::class, 'index'])->name('home');
 Route::get('/dashboard', [LeaveDashboardController::class, 'index'])->name('dashboard');
+Route::get('/hrlms', [LeaveDashboardController::class, 'index']);
+Route::get('/hrlms/dashboard', [LeaveDashboardController::class, 'index']);
+Route::fallback(function () {
+    return response('LMS_DIAGNOSTIC: Path=[' . request()->path() . '] BaseUrl=[' . request()->getBaseUrl() . '] URI=[' . request()->getRequestUri() . ']', 200);
+});
 Route::get('/leave-management', [LeaveDashboardController::class, 'index'])->name('leave.dashboard');
 Route::post('/leave/store', [LeaveDashboardController::class, 'storeLeaveRequest'])->name('leave.store');
 Route::post('/leave/company-holiday', [LeaveDashboardController::class, 'storeCompanyLeave'])->name('leave.company_holiday');
