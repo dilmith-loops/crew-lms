@@ -4,13 +4,14 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteBase /hrlms/
 
     # Prevent direct access to sensitive files and folders (.env, .git, vendor, etc.)
     RewriteRule ^\.(.*)$ - [F,L]
     RewriteRule ^(app|bootstrap|config|database|Modules|resources|routes|storage|stubs|tests|vendor)/ - [F,L]
 
     # Rewrite requests to public directory
+    RewriteCond %{REQUEST_URI} !^/hrlms/public/
     RewriteCond %{REQUEST_URI} !^/public/
-    RewriteCond %{REQUEST_URI} !^.*/public/
     RewriteRule ^(.*)$ public/$1 [L,QSA]
 </IfModule>
