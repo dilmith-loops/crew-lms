@@ -10,8 +10,14 @@
     RewriteRule ^\.(.*)$ - [F,L]
     RewriteRule ^(app|bootstrap|config|database|Modules|resources|routes|storage|stubs|tests|vendor)/ - [F,L]
 
-    # Rewrite requests to public directory
+    # Send root requests to public/index.php
+    RewriteRule ^$ public/index.php [L]
+
+    # Rewrite static assets (build, css, js, images, fonts) to public/
     RewriteCond %{REQUEST_URI} !^/hrlms/public/
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(.*)$ public/$1 [L,QSA]
+    RewriteRule ^(build/.*|.*\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webmanifest))$ public/$1 [L,NC]
+
+    # Send all other application routes to front controller
+    RewriteCond %{REQUEST_URI} !^/hrlms/public/
+    RewriteRule ^(.*)$ public/index.php [L,QSA]
 </IfModule>
